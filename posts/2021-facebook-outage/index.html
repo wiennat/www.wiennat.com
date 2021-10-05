@@ -1,0 +1,60 @@
+<!doctype html><html>
+<head>
+<meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1">
+<meta http-equiv=x-ua-compatible content="IE=edge">
+<title> 2021 Facebook Outage | wiennat</title>
+<link rel=stylesheet href=/sass/main.min.2b73f7ee10715c6d8f54ae042405e84d9cad643f58824f2a9259235b81fc71ca.css>
+</head>
+<body>
+<div class=container>
+<header>
+<h1>
+<a class=brand href=/>
+wiennat
+</a>
+</h1>
+<nav>
+<a href=/about>About</a>
+<a href=/posts>Posts</a>
+</nav>
+</header>
+</div>
+<div class=container>
+<section>
+<div class=posts>
+<article>
+<div class=post-header>
+<h3>2021 Facebook Outage</h3>
+</div>
+<div class=meta>
+<time datetime=2021-10-05T08:40:30+09:00>October 05, 2021</time>
+</div>
+<div class=post>
+<p>เมื่อวาน facebook.com รวมทั้งบริการอื่นๆ ของเฟซบุ๊กทั้ง Whatsapp, Instagram ล่มทั้งหมดเพราะมีข้อผิดพลาดเกิดขึ้นที่ระดับ BGP ถึงโลกจะสงบสุขชั่วคราว แต่เชื่อว่าวิศวกรของเฟซบุ๊กน่าจะวุ่นวายกันมากเป็นพิเศษ
+ระหว่างที่รอทางเฟซบุ๊กออก Post-mortem มา เราก็สามารถอ่าน<a href=https://blog.cloudflare.com/october-2021-facebook-outage/>สรุปที่ Cloudflare สรุปเหตุการณ์จากมุมมองคนนอกเอาไว้</a> แทน</p>
+<p>ในรายงานของ Cloudflare เล่ารายละเอียดว่าเกิดอะไรขึ้นที่ฝั่ง Cloudflare ในช่วงเวลาที่เกิดปัญหาขึ้น โดยก็ไม่ได้ลงลึกหรือเดาว่าเกิดอะไรขึ้นที่ฝั่งเฟซบุ๊ก
+กล่าวโดยสรุปก็คือมีการแก้ไขข้อมูลที่ BGP แล้วก็ทำให้ DNS ของฝั่งเฟซบุ๊กหายไปจากอินเทอร์เน็ต พอ DNS หายไปทุกอย่างที่ผูกกับ DNS ตัวนี้ก็หายไปด้วยรวมทั้ง <a href=https://status.fb.com/>https://status.fb.com/</a> ที่<a href="https://twitter.com/Nick_Craver/status/1445160195991166980?s=20">แม้จะอยู่บน Cloudfront</a> ก็ได้รับผลกระทบไปด้วย</p>
+<p>ส่วนที่คาดไม่ถึงของเหตุการณ์นี้ที่อยู่ในสรุปก็คือการล่มครั้งนี้ยังส่งแรงกระเพื่อมไปยังบริการ DNS ต่างๆ ด้วย คือพออุปกรณ์และแอปต่างๆ ไม่สามารถ resolve ชื่อโดเมนของเฟซบุ๊กไม่ได้ ผู้ใช้ก็อาจจะกดให้ refresh เพื่อลองใหม่ บวกกับตัวแอปเองก็อาจจะลอง resolve ชื่อโดเมนไปเรื่อยๆ ด้วยทำให้เกิดทราฟฟิกเพิ่มขึ้นมหาศาล จนทำให้บริการ DNS อย่าง 1.1.1.1 ของ Cloudflare หรือ <a href=https://twitter.com/awlnx/status/1445073290708533258>8.8.8.8 ของกูเกิลต้องรับภาระหนัก</a>มากขึ้น</p>
+<p>ถ้าข้ามไปฝั่ง <a href=https://krebsonsecurity.com/2021/10/what-happened-to-facebook-instagram-whatsapp/>Krebs on Security</a> ก็จะมีอธิบายสรุปพร้อมกับรายงานสดความคืบหน้าของเหตุการณ์แทน</p>
+</div>
+</article>
+</div>
+</section>
+</div>
+<div class=container>
+<hr>
+<footer>
+<section class=note>
+published under
+<a class="link link--text" href=https://creativecommons.org/licenses/by-sa/4.0/>CC BY-SA 4.0</a>. made with hugo.
+</section>
+<section class=webring>
+<a href=https://webring.wonderful.software#wiennat.com title=วงแหวนเว็บ>
+<img alt=วงแหวนเว็บ width=21 height=21 src=/images/webring.svg>
+</a>
+</section>
+</footer>
+</div>
+</body>
+</html>
