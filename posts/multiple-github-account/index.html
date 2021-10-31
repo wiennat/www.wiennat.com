@@ -1,0 +1,83 @@
+<!doctype html><html>
+<head>
+<meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1">
+<meta http-equiv=x-ua-compatible content="IE=edge">
+<title> เซต ssh ให้ใช้ Github ได้หลายแอคเคาท์ | wiennat</title>
+<link rel=stylesheet href=/sass/main.min.575dec7a897d7beb0672e2c22199cc4e071fda7cbe1e5f937ff8b83c20f74ab0.css>
+</head>
+<body>
+<div class=container>
+<header>
+<h1>
+<a class=brand href=/>
+wiennat
+</a>
+</h1>
+<nav>
+<a href=/about>About</a>
+<a href=/posts>Posts</a>
+</nav>
+</header>
+</div>
+<div class=container>
+<section>
+<div class=posts>
+<article>
+<div class=post-header>
+<h3>เซต ssh ให้ใช้ Github ได้หลายแอคเคาท์</h3>
+</div>
+<div class=meta>
+<time datetime=2021-10-31T11:40:21+09:00>October 31, 2021</time>
+</div>
+<div class=post>
+<p>ปกติแล้ว Github แนะนำให้ใช้แอคเคาท์เดียวสำหรับทั้งเรื่องงานและเรื่องส่วนตัว แต่สำหรับบางกรณีที่ต้องใช้มากกว่า 1 แอคเคาท์ เช่นมีการใช้ dotfiles ร่วมกัน หรือใช้ Github สำหรับจดบันทึกส่วนตัว (เช่นใช้ Obsidian) ถ้าเป็นเมื่อก่อนอาจจะยอมใช้ HTTP Protocol แล้วใส่พาสเวิร์ดเอาแทนได้ แต่พอ Github เลิกรองรับการใช้งานพาสเวิร์ดก็เลยต้องมาออกแรงมากขึ้นหน่อยด้วยการเซต SSH config เพิ่ม</p>
+<p>สมมติว่าเรามีแอคเคาท์ชื่อ <code>my-personal-account</code> กับ <code>my-work-account</code></p>
+<ol>
+<li>ให้สร้าง ssh public/private key pairs ของทั้งสอง เซฟในชื่อที่ต่างกัน เช่น <code>my-personal-account กับ my-personal-account.pub</code> และ <code>my-work-account กับ my-work-account.pub</code></li>
+<li>เลือกว่าจะให้แอคเคาท์ไหนจะให้เป็นแอคเคาท์หลัก กรณีนี้สมมติว่าให้ <code>my-personal-account</code> เป็นแอคเคาท์หลัก</li>
+<li>ในไฟล์​ <code>~/.ssh/config</code> ให้กำหนดค่าแบบนี้
+<pre><code>Host github.com
+    HostName github.com
+    User git
+    AddKeysToAgent yes
+    UseKeychain yes
+    IdentityFile ~/.ssh/my-personal-account
+
+Host github.com-work
+    HostName github.com
+    User git
+    AddKeysToAgent yes
+    UseKeychain yes
+    IdentityFile ~/.ssh/my-work-account
+</code></pre></li>
+<li>สำหรับแอคเคาท์หลักก็ใช้คำสั่งตามปกติ แต่เวลาเราจะใช้งาน repo ที่เป็นของแอคเคาท์ทำงานก็ใช้วิธี git clone ด้วยการเติม <code>-work</code> เข้าไปท้าย <code>github.com</code> แบบคำสั่งข้างล่างนี้แทน โดยที่ตรง <code>(your repo)</code> นี่ก็ใส่เป็นชืื่อ repo ที่ต้องการ
+<pre><code>git clone git@github.com-work:(your repo)
+</code></pre><p>เช่น</p>
+<pre><code>git clone git@github.com-work:my-work-accont/myrepo.git
+</code></pre></li>
+<li>คำสั่งอื่นๆ ก็ใช้งานตามปกติ</li>
+</ol>
+<h2 id=ขอควรระวง>ข้อควรระวัง</h2>
+<p>ถึงแม้ว่าเราจะโคลนตัว repo มาได้แต่ว่าเวลาเรา commit code มันอาจจะเป็นชื่อและอีเมลที่เราใช้กับแอคเคาท์อื่นก็ได้ ดังนั้นคนที่กลัวว่าชื่อ/อีเมลจะปนกันก็ควรจะ <strong>ต้องตรวจสอบ .git/config ทุกครั้งหลังจาก clone ว่าตั้งค่า git.user และ git.email ถูกต้อง</strong></p>
+</div>
+</article>
+</div>
+</section>
+</div>
+<div class=container>
+<hr>
+<footer>
+<section class=note>
+published under
+<a class="link link--text" href=https://creativecommons.org/licenses/by-sa/4.0/>CC BY-SA 4.0</a>. made with hugo.
+</section>
+<section class=webring>
+<a href=https://webring.wonderful.software#wiennat.com title=วงแหวนเว็บ>
+<img alt=วงแหวนเว็บ width=21 height=21 src=/images/webring.svg>
+</a>
+</section>
+</footer>
+</div>
+</body>
+</html>
