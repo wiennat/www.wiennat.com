@@ -1,0 +1,75 @@
+<!doctype html><html>
+<head>
+<meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1">
+<meta http-equiv=x-ua-compatible content="IE=edge">
+<title> โค้ดสำหรับทำสอบ Connection reset by peer | wiennat</title>
+<link rel=stylesheet href=/sass/main.min.575dec7a897d7beb0672e2c22199cc4e071fda7cbe1e5f937ff8b83c20f74ab0.css>
+</head>
+<body>
+<div class=container>
+<header>
+<h1>
+<a class=brand href=/>
+wiennat
+</a>
+</h1>
+<nav>
+<a href=/about>About</a>
+<a href=/posts>Posts</a>
+</nav>
+</header>
+</div>
+<div class=container>
+<section>
+<div class=posts>
+<article>
+<div class=post-header>
+<h3>โค้ดสำหรับทำสอบ Connection reset by peer</h3>
+</div>
+<div class=meta>
+<time datetime=2022-04-25T11:30:00+09:00>April 25, 2022</time>
+</div>
+<div class=post>
+<p>หลายเดือนก่อนเจอปัญหาที่แก้ไม่ตกว่าทำไมอยู่ๆ ก็มี log ที่ API Server ที่เขียนด้วย Kotlin บอกว่าดึงข้อมูลไม่ได้ออกมาเต็มไปหมด
+พอเช็คในรายละเอียดของ log พบว่าทุกอันชี้ไปที่สาเหตุเดียวกันหมดคือ <code>MonoCoroutine was canceled</code> แต่ก็ไม่ได้มีรายละเอียดอะไรมากไปกว่านั้น
+หลังจากหามาอยู่สองเดือนก็เดาว่ามันน่าจะเกิดจากการที่อีกฝั่งตัดการเชื่อมต่อไปโดยไม่บอก (Connection reset by peer) เลยไปตามหาโค้ดที่ใช้ทดสอบมาเป็น Java ประมาณนี้</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=color:#f92672>package</span> net.onedd<span style=color:#f92672>;</span>
+
+<span style=color:#f92672>import</span> java.io.BufferedReader<span style=color:#f92672>;</span>
+<span style=color:#f92672>import</span> java.io.InputStreamReader<span style=color:#f92672>;</span>
+<span style=color:#f92672>import</span> java.io.PrintWriter<span style=color:#f92672>;</span>
+<span style=color:#f92672>import</span> java.net.Socket<span style=color:#f92672>;</span>
+
+<span style=color:#66d9ef>public</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>Application</span> <span style=color:#f92672>{</span>
+    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>static</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>main</span><span style=color:#f92672>(</span>String<span style=color:#f92672>[]</span> args<span style=color:#f92672>)</span> <span style=color:#66d9ef>throws</span> Exception <span style=color:#f92672>{</span>
+        System<span style=color:#f92672>.</span><span style=color:#a6e22e>out</span><span style=color:#f92672>.</span><span style=color:#a6e22e>println</span><span style=color:#f92672>(</span><span style=color:#e6db74>&#34;starting&#34;</span><span style=color:#f92672>);</span>
+        Socket s <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> Socket<span style=color:#f92672>(</span><span style=color:#e6db74>&#34;localhost&#34;</span><span style=color:#f92672>,</span> 5000<span style=color:#f92672>);</span>
+        PrintWriter out <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> PrintWriter<span style=color:#f92672>(</span>s<span style=color:#f92672>.</span><span style=color:#a6e22e>getOutputStream</span><span style=color:#f92672>(),</span> <span style=color:#66d9ef>true</span><span style=color:#f92672>);</span>
+        BufferedReader in <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> BufferedReader<span style=color:#f92672>(</span><span style=color:#66d9ef>new</span> InputStreamReader<span style=color:#f92672>(</span>s<span style=color:#f92672>.</span><span style=color:#a6e22e>getInputStream</span><span style=color:#f92672>()));</span>
+        out<span style=color:#f92672>.</span><span style=color:#a6e22e>println</span><span style=color:#f92672>(</span><span style=color:#e6db74>&#34;GET /echo?m=a HTTP/1.1&#34;</span><span style=color:#f92672>);</span>
+        out<span style=color:#f92672>.</span><span style=color:#a6e22e>println</span><span style=color:#f92672>(</span><span style=color:#e6db74>&#34;&#34;</span><span style=color:#f92672>);</span>
+    <span style=color:#f92672>}</span>
+<span style=color:#f92672>}</span>
+</code></pre></div>
+</div>
+</article>
+</div>
+</section>
+</div>
+<div class=container>
+<hr>
+<footer>
+<section class=note>
+published under
+<a class="link link--text" href=https://creativecommons.org/licenses/by-sa/4.0/>CC BY-SA 4.0</a>. made with hugo.
+</section>
+<section class=webring>
+<a href=https://webring.wonderful.software#wiennat.com title=วงแหวนเว็บ>
+<img alt=วงแหวนเว็บ width=21 height=21 src=/images/webring.svg>
+</a>
+</section>
+</footer>
+</div>
+</body>
+</html>
