@@ -32,8 +32,8 @@ wiennat
 </div>
 <div class=post>
 <p>หลายเดือนก่อนเจอปัญหาที่แก้ไม่ตกว่าทำไมอยู่ๆ ก็มี log ที่ API Server ที่เขียนด้วย Kotlin บอกว่าดึงข้อมูลไม่ได้ออกมาเต็มไปหมด
-พอเช็คในรายละเอียดของ log พบว่าทุกอันชี้ไปที่สาเหตุเดียวกันหมดคือ <code>MonoCoroutine was canceled</code> แต่ก็ไม่ได้มีรายละเอียดอะไรมากไปกว่านั้น
-หลังจากหามาอยู่สองเดือนก็เดาว่ามันน่าจะเกิดจากการที่อีกฝั่งตัดการเชื่อมต่อไปโดยไม่บอก (Connection reset by peer) เลยไปตามหาโค้ดที่ใช้ทดสอบมาเป็น Java ประมาณนี้</p>
+พอเช็คในรายละเอียดของ log พบว่าทุกอันชี้ไปที่สาเหตุเดียวกันหมดคือ <code>MonoCoroutine was canceled</code> แต่ก็ไม่ได้มีรายละเอียดอะไรมากไปกว่านั้น</p>
+<p>หลังจากหามาอยู่สองเดือนก็เดาว่ามันน่าจะเกิดจากการที่อีกฝั่งตัดการเชื่อมต่อไปโดยไม่บอก (Connection reset by peer) เลยไปตามหาโค้ดที่ใช้ทดสอบมาเป็น Java ประมาณนี้</p>
 <div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=color:#f92672>package</span> net.onedd<span style=color:#f92672>;</span>
 
 <span style=color:#f92672>import</span> java.io.BufferedReader<span style=color:#f92672>;</span>
