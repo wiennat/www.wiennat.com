@@ -4,6 +4,15 @@
 <meta name=viewport content="width=device-width,initial-scale=1">
 <meta http-equiv=x-ua-compatible content="IE=edge">
 <title> เซต ssh ให้ใช้ Github ได้หลายแอคเคาท์ | wiennat</title>
+<meta property="og:title" content="เซต ssh ให้ใช้ Github ได้หลายแอคเคาท์">
+<meta property="og:description" content="ปกติแล้ว Github แนะนำให้ใช้แอคเคาท์เดียวสำหรับทั้งเรื่องงานและเรื่องส่วนตัว แต่สำหรับบางกรณีที่ต้องใช้มากกว่า 1 แอคเคาท์ เช่นมีการใช้ dotfiles ร่วมกัน หรือใช้ Github สำหรับจดบันทึกส่วนตัว (เช่นใช้ Obsidian) ถ้าเป็นเมื่อก่อนอาจจะยอมใช้ HTTP Protocol แล้วใส่พาสเวิร์ดเอาแทนได้ แต่พอ Github เลิกรองรับการใช้งานพาสเวิร์ดก็เลยต้องมาออกแรงมากขึ้นหน่อยด้วยการเซต SSH config เพิ่ม">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://www.wiennat.com/posts/multiple-github-account/"><meta property="article:section" content="posts">
+<meta property="article:published_time" content="2021-10-31T11:40:21+09:00">
+<meta property="article:modified_time" content="2021-10-31T11:40:21+09:00">
+<meta name=twitter:card content="summary">
+<meta name=twitter:title content="เซต ssh ให้ใช้ Github ได้หลายแอคเคาท์">
+<meta name=twitter:description content="ปกติแล้ว Github แนะนำให้ใช้แอคเคาท์เดียวสำหรับทั้งเรื่องงานและเรื่องส่วนตัว แต่สำหรับบางกรณีที่ต้องใช้มากกว่า 1 แอคเคาท์ เช่นมีการใช้ dotfiles ร่วมกัน หรือใช้ Github สำหรับจดบันทึกส่วนตัว (เช่นใช้ Obsidian) ถ้าเป็นเมื่อก่อนอาจจะยอมใช้ HTTP Protocol แล้วใส่พาสเวิร์ดเอาแทนได้ แต่พอ Github เลิกรองรับการใช้งานพาสเวิร์ดก็เลยต้องมาออกแรงมากขึ้นหน่อยด้วยการเซต SSH config เพิ่ม">
 <link rel=stylesheet href=/sass/main.min.fb4e514508e3612273f91103426eb914f3286dc8e9700d26132f3d4e462f7ecb.css>
 </head>
 <body>
