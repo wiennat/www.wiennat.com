@@ -4,7 +4,7 @@
 <meta name=viewport content="width=device-width,initial-scale=1">
 <meta http-equiv=x-ua-compatible content="IE=edge">
 <title> โค้ดสำหรับทดสอบ Connection reset by peer | wiennat</title>
-<link rel=stylesheet href=/sass/main.min.6c9f31a44c55f46dea98c1cbf01c504e7eec464e0c932074096a1195fd390416.css>
+<link rel=stylesheet href=/sass/main.min.fb4e514508e3612273f91103426eb914f3286dc8e9700d26132f3d4e462f7ecb.css>
 </head>
 <body>
 <div class=container>
@@ -31,6 +31,7 @@ wiennat
 <time datetime=2022-04-25T11:30:00+09:00>April 25, 2022</time>
 </div>
 <div class=post>
+<div class=content>
 <p>หลายเดือนก่อนเจอปัญหาที่แก้ไม่ตกว่าทำไมอยู่ๆ ก็มี log ที่ API Server ที่เขียนด้วย Kotlin บอกว่าดึงข้อมูลไม่ได้ออกมาเต็มไปหมด
 พอเช็คในรายละเอียดของ log พบว่าทุกอันชี้ไปที่สาเหตุเดียวกันหมดคือ <code>MonoCoroutine was canceled</code> แต่ก็ไม่ได้มีรายละเอียดอะไรมากไปกว่านั้น</p>
 <p>หลังจากหามาอยู่สองเดือนก็เดาว่ามันน่าจะเกิดจากการที่อีกฝั่งตัดการเชื่อมต่อไปโดยไม่บอก (Connection reset by peer) เลยไปตามหาโค้ดที่ใช้ทดสอบมาเป็น Java ประมาณนี้</p>
@@ -52,6 +53,7 @@ wiennat
     <span style=color:#f92672>}</span>
 <span style=color:#f92672>}</span>
 </code></pre></div>
+</div>
 </div>
 </article>
 </div>

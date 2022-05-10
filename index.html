@@ -4,7 +4,7 @@
 <meta name=viewport content="width=device-width,initial-scale=1">
 <meta http-equiv=x-ua-compatible content="IE=edge">
 <title> wiennat | wiennat</title>
-<link rel=stylesheet href=/sass/main.min.6c9f31a44c55f46dea98c1cbf01c504e7eec464e0c932074096a1195fd390416.css>
+<link rel=stylesheet href=/sass/main.min.fb4e514508e3612273f91103426eb914f3286dc8e9700d26132f3d4e462f7ecb.css>
 <link rel=alternate type=application/rss+xml href=https://www.wiennat.com/index.xml title=wiennat>
 </head>
 <body>
@@ -26,16 +26,34 @@ wiennat
 <div class=posts>
 <article>
 <div class=post-header>
+<h3><a href=/posts/surprisingly-synchronization/>Surprisingly Synchronization</a></h3>
+</div>
+<div class=meta>
+<time datetime=2022-05-10T00:00:00+09:00>May 10, 2022</time>
+</div>
+<div class=post>
+<div class=content>
+ก็ไม่รู้เป็นเรื่องบังเอิญรึเปล่าที่ได้เจอเรื่องที่น่าจะเกี่ยวกันสองเรื่องคือวิดีโอวิทยาศาสตร์กับข่าวตึกสั่นในเกาหลีใต้ในวันเดียวกัน
+</div>
+</div>
+<div class=read-more>
+<a href=/posts/surprisingly-synchronization/>Continue reading …</a>
+</div>
+</article>
+<article>
+<div class=post-header>
 <h3><a href=/posts/test-connection-reset-by-peer/>โค้ดสำหรับทดสอบ Connection reset by peer</a></h3>
 </div>
 <div class=meta>
 <time datetime=2022-04-25T11:30:00+09:00>April 25, 2022</time>
 </div>
 <div class=post>
+<div class=content>
 <p>หลายเดือนก่อนเจอปัญหาที่แก้ไม่ตกว่าทำไมอยู่ๆ ก็มี log ที่ API Server ที่เขียนด้วย Kotlin บอกว่าดึงข้อมูลไม่ได้ออกมาเต็มไปหมด
 พอเช็คในรายละเอียดของ log พบว่าทุกอันชี้ไปที่สาเหตุเดียวกันหมดคือ <code>MonoCoroutine was canceled</code> แต่ก็ไม่ได้มีรายละเอียดอะไรมากไปกว่านั้น</p>
 </div>
-<div>
+</div>
+<div class=read-more>
 <a href=/posts/test-connection-reset-by-peer/>Continue reading …</a>
 </div>
 </article>
@@ -47,12 +65,16 @@ wiennat
 <time datetime=2022-03-31T00:00:00+09:00>March 31, 2022</time>
 </div>
 <div class=post>
-<a href=/posts/lotterry/>
-<img src=/posts/lotterry/lotto-cover.jpg>
+<div class=cover>
+<a href=/posts/lotterry/ class=cover-image-link>
+<img src=/posts/lotterry/lotto-cover.jpg class=cover-image>
 </a>
+</div>
+<div class=content>
 <p>เมื่อสองสามปีก่อนดูรายการขอตามไปบ้าน (家ついていっていいですか？)　แล้วมีการพูดถึงว่ารายได้จากการซื้อลอตเตอรี่ในญี่ปุ่นนั้นจะถูกบริจาคเพื่อไปทำประโยชน์ให้สาธารณะ บวกกับว่าปีก่อนมีประเด็นเรื่องเงินบริจาคของกองสลาก ก็เลยสงสัยขึ้นมาว่า รายได้จากการขายหวยของญี่ปุ่นนั้นถูกจัดสรรปันส่วนยังไง</p>
 </div>
-<div>
+</div>
+<div class=read-more>
 <a href=/posts/lotterry/>Continue reading …</a>
 </div>
 </article>
@@ -64,10 +86,17 @@ wiennat
 <time datetime=2022-03-04T18:26:00+09:00>March 04, 2022</time>
 </div>
 <div class=post>
-<a href=/posts/imakita-sangyou/>
-<img src=/posts/imakita-sangyou/imakita.jpg>
+<div class=cover>
+<a href=/posts/imakita-sangyou/ class=cover-image-link>
+<img src=/posts/imakita-sangyou/imakita.jpg class=cover-image>
 </a>
+</div>
+<div class=content>
 คำว่า 今北産業 แปลเป็นไทยแบบสวยๆ ได้ว่าอิมาคิตะอุตสาหการ ฟังดูแล้วอาจจะฟังดูเหมือนชื่อกิจการหรือชื่อบริษัทอะไรซักอย่าง แต่ความจริงแล้วกลับไม่ได้มีความหมายแบบนั้นเลยแม้แต่นิดเดียว
+</div>
+</div>
+<div class=read-more>
+<a href=/posts/imakita-sangyou/>Continue reading …</a>
 </div>
 </article>
 <article>
@@ -78,9 +107,11 @@ wiennat
 <time datetime=2021-10-31T11:40:21+09:00>October 31, 2021</time>
 </div>
 <div class=post>
+<div class=content>
 <p>ปกติแล้ว Github แนะนำให้ใช้แอคเคาท์เดียวสำหรับทั้งเรื่องงานและเรื่องส่วนตัว แต่สำหรับบางกรณีที่ต้องใช้มากกว่า 1 แอคเคาท์ เช่นมีการใช้ dotfiles ร่วมกัน หรือใช้ Github สำหรับจดบันทึกส่วนตัว (เช่นใช้ Obsidian) ถ้าเป็นเมื่อก่อนอาจจะยอมใช้ HTTP Protocol แล้วใส่พาสเวิร์ดเอาแทนได้ แต่พอ Github เลิกรองรับการใช้งานพาสเวิร์ดก็เลยต้องมาออกแรงมากขึ้นหน่อยด้วยการเซต SSH config เพิ่ม</p>
 </div>
-<div>
+</div>
+<div class=read-more>
 <a href=/posts/multiple-github-account/>Continue reading …</a>
 </div>
 </article>
@@ -92,25 +123,13 @@ wiennat
 <time datetime=2021-10-05T08:40:30+09:00>October 05, 2021</time>
 </div>
 <div class=post>
+<div class=content>
 <p>เมื่อวาน facebook.com รวมทั้งบริการอื่นๆ ของเฟซบุ๊กทั้ง Whatsapp, Instagram ล่มทั้งหมดเพราะมีข้อผิดพลาดเกิดขึ้นที่ระดับ BGP ถึงโลกจะสงบสุขชั่วคราว แต่เชื่อว่าวิศวกรของเฟซบุ๊กน่าจะวุ่นวายกันมากเป็นพิเศษ
 ระหว่างที่รอทางเฟซบุ๊กออก Post-mortem มา เราก็สามารถอ่าน<a href=https://blog.cloudflare.com/october-2021-facebook-outage/>สรุปที่ Cloudflare สรุปเหตุการณ์จากมุมมองคนนอกเอาไว้</a> แทน</p>
 </div>
-<div>
+</div>
+<div class=read-more>
 <a href=/posts/2021-facebook-outage/>Continue reading …</a>
-</div>
-</article>
-<article>
-<div class=post-header>
-<h3><a href=/posts/japanese-average-income/>รายได้เฉลี่ยของคนญี่ปุ่น</a></h3>
-</div>
-<div class=meta>
-<time datetime=2021-02-06T09:05:05+09:00>February 06, 2021</time>
-</div>
-<div class=post>
-<p>วันก่อนเห็นข่าวว่ารัฐบาลญี่ปุ่นจะมีการแก้กฏหมายเพื่อ<a href=https://www3.nhk.or.jp/news/html/20210202/k10012845011000.html>ยกเลิกเงินสนับสนุนการเลี้ยงดูเด็กสำหรับครอบครัวผู้มีรายได้สูง</a> คือมีรายได้ต่อปีเกิน 12 ล้านเยน ก็เลยสงสัยเกี่ยวกับรายได้เฉลี่ยของคนญี่ปุ่นขึ้นมา</p>
-</div>
-<div>
-<a href=/posts/japanese-average-income/>Continue reading …</a>
 </div>
 </article>
 </div>

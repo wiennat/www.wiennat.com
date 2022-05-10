@@ -4,7 +4,7 @@
 <meta name=viewport content="width=device-width,initial-scale=1">
 <meta http-equiv=x-ua-compatible content="IE=edge">
 <title> Longdo Dict Chrome Bookmarklet | wiennat</title>
-<link rel=stylesheet href=/sass/main.min.6c9f31a44c55f46dea98c1cbf01c504e7eec464e0c932074096a1195fd390416.css>
+<link rel=stylesheet href=/sass/main.min.fb4e514508e3612273f91103426eb914f3286dc8e9700d26132f3d4e462f7ecb.css>
 </head>
 <body>
 <div class=container>
@@ -31,6 +31,7 @@ wiennat
 <time datetime=2019-07-23T00:00:00+09:00>July 23, 2019</time>
 </div>
 <div class=post>
+<div class=content>
 <p>อันนี้เป็น Bookmarklet ใช้สำหรับเวลาจะเปิดหาความหมายคำจาก Longdo Dict</p>
 <p>ด้วยความที่ขี้เกียจเขียนให้เป็น Extension ของ Chrome ก็เลยทำมาไว้เป็น Bookmarklet ของจาวาสคริปต์แทน
 เวลาใช้ก็ Highlight ประโยคแล้วก็กดที่ปุ่ม Bookmarklet หรือว่ากดที่ Bookmarklet แล้วก็พิมพ์คำที่ต้องการก็จะเปิดหน้าต่างใหม่ของ Longdo Dict ให้เอง</p>
@@ -38,6 +39,7 @@ wiennat
 เลยขอเอามาแปะใหม่ที่นี่แล้วกัน วิธีติดตั้งก็คือลากข้อความข้างล่างไปแปะเป็น Bookmark ได้เลย</p>
 <pre><code>javascript:void(q=window.getSelection?window.getSelection():(document.getSelection?document.getSelection():(document.selection?document.selection.createRange().text:'')));if(q=='')void(q=prompt('Enter a word',''));if(q){void(ldwin=window.open('http://dict.longdo.com/mobile.php?search='+encodeURIComponent(q),'ldwin','width=600,height=600,resizable=yes,scrollbars=yes,toolbar=no,location=no,directories=no,status=yes,menubar=no,copyhistory=no'));void(setTimeout('ldwin.focus()',1));};
 </code></pre>
+</div>
 </div>
 </article>
 </div>
