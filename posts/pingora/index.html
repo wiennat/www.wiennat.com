@@ -1,0 +1,146 @@
+<!doctype html><html>
+<head>
+<meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1">
+<meta http-equiv=x-ua-compatible content="IE=edge">
+<title>
+Pingora พร็อกซีตัวใหม่ของ Cloudflare ที่มาแทน nginx | wiennat
+</title>
+<meta property="og:title" content="Pingora พร็อกซีตัวใหม่ของ Cloudflare ที่มาแทน nginx">
+<meta property="og:description" content="สรุปคร่าวๆ เกี่ยวการพัฒนา Pingora ของ Cloudflare">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://www.wiennat.com/posts/pingora/"><meta property="og:image" content="https://www.wiennat.com/posts/pingora/cover.jpg"><meta property="article:section" content="posts">
+<meta property="article:published_time" content="2022-09-21T11:00:00+09:00">
+<meta property="article:modified_time" content="2022-09-21T11:00:00+09:00">
+<meta name=twitter:card content="summary_large_image">
+<meta name=twitter:image content="https://www.wiennat.com/posts/pingora/cover.jpg">
+<meta name=twitter:title content="Pingora พร็อกซีตัวใหม่ของ Cloudflare ที่มาแทน nginx">
+<meta name=twitter:description content="สรุปคร่าวๆ เกี่ยวการพัฒนา Pingora ของ Cloudflare">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-X2WMJ0S06D"></script>
+<script>var doNotTrack=!1;if(!doNotTrack){window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date),gtag('config','G-X2WMJ0S06D',{anonymize_ip:!1})}</script>
+<link rel=stylesheet href=/sass/main.min.fb4e514508e3612273f91103426eb914f3286dc8e9700d26132f3d4e462f7ecb.css>
+</head>
+<body>
+<div class=container>
+<header>
+<h1>
+<a class=brand href=/>
+wiennat
+</a>
+</h1>
+<nav>
+<a href=/about>About</a>
+<a href=/posts>Posts</a>
+</nav>
+</header>
+</div>
+<div class=container>
+<section>
+<div class=posts>
+<article>
+<div class=post-header>
+<div class=cover>
+<img src=/posts/pingora/cover.jpg class=cover-image>
+</div>
+<h3>Pingora พร็อกซีตัวใหม่ของ Cloudflare ที่มาแทน nginx</h3>
+</div>
+<div class=meta>
+<time datetime=2022-09-21T11:00:00+09:00>September 21, 2022</time>
+</div>
+<div class=post>
+<div class=content>
+<p>เมื่อหลายวันก่อน Cloudflare ประกาศว่าได้เปลี่ยนมาใช้พร็อกซีตัวใหม่ที่พัฒนาขึ้นใหม่ทั้งหมดแทนที่ nginx ที่ใช้งานอยู่ก่อนหน้า โดยเหตุผลหลักก็เพื่อแก้ปัญหาจากข้อจำกัดของ nginx เอง โดยในบล็อกมีการอธิบายถึงปัญหาดังกล่าวไว้ด้วย ถึงจะรู้ว่าเราคงไม่น่าจะมีโอกาสได้เจออะไรแบบนี้เท่าไหร่ แต่ก็ทำให้เราได้มีโอกาสเปิดหูเปิดตาว่าในระบบใหญ่ๆ ระดับนี้นั้นมีปัญหาอะไรเกิดขึ้นได้บ้าง</p>
+<h1 id=nginx-ในระบบของ-cloudflare>nginx ในระบบของ Cloudflare</h1>
+<p>ก่อนเราจะเริ่มไปพูดถึงว่า nginx มีปัญหาอย่างไร เราลองมาดูกันก่อนว่า Cloudflare ใช้งาน nginx อย่างไรบ้าง</p>
+<p>ปกติแล้ว Cloudflare จะทำหน้าที่เป็นตัวกลางที่อยู่ระหว่างไคลเอนต์ (เครื่องผู้ใช้, บราวเซอร์, แอปหรืออุปกรณ์ต่างๆ) ที่เรียกใช้งานเซิฟเวอร์ (API Server) โดย Cloudflare นั้นเลือกใช้ nginx เพื่อใช้เป็นพร็อกซี (Proxy) ที่จะส่งต่อการคุยกันระหว่างเครื่องผู้ใช้และเซิฟเวอร์ เมื่อบวกกับการที่ Cloudflare มีเครื่อง edge server ที่อยู่ใกล้กับไคลเอนต์มากๆ ทำให้การใช้งานโดยทั่วไปมีประสิทธิภาพสูงกว่าการเรียกเซิฟเวอร์แบบตรงๆ</p>
+<p>หนึ่งในวิธีที่ Cloudflare ใช้เพื่อช่วยเพิ่มประสิทธิภาพก็คือ Connection reuse ซึ่งแทนที่จะต้องสร้าง connection จากพร็อกซีไปยังเครื่องเซิฟเวอร์ทุกครั้งที่มี request เข้ามา ก็ให้ <a href=https://www.nginx.com/blog/load-balancing-with-nginx-plus-part-2/>nginx เก็บ connection เก่าๆ เอาไว้ใน connection pool</a> หากมี request ใหม่ที่ต้องการใช้งานเซิฟเวอร์เดิมก็แค่เอา connection ใน pool ออกมาใช้ เท่านี้ก็ช่วยลดเวลาและหน่วยความจำที่ต้องใช้สร้าง connection ได้แล้ว</p>
+<h1 id=ปญหาของ-nginx-ใน-cloudflare>ปัญหาของ nginx ใน Cloudflare</h1>
+<figure><img src=connection-pool-cf.png alt="Connection pool ใน Cloudflare">
+</figure>
+<p>ช่วงก่อนหน้านี้ Cloudflare นั้นก็มีการพูดถึงปัญหาในการใช้งาน nginx มาอยู่บ้างคือ</p>
+<ol>
+<li>ข้อจำกัดของ architecture ที่ nginx ใช้นั้นมีผลต่อ performance
+<ul>
+<li>nginx ใช้ <a href=https://www.nginx.com/blog/inside-nginx-how-we-designed-for-performance-scale/>worker ในระดับ process</a> และหนึ่ง request จะถูก handle ด้วย process เดียวแบบไม่มี work stealing แปลว่าถ้ามี request ที่ใช้งาน <a href=https://blog.cloudflare.com/the-problem-with-event-loops/>CPU หนักๆ</a> หรือใช้ <a href=https://blog.cloudflare.com/how-we-scaled-nginx-and-saved-the-world-54-years-every-day/>blocked I/O</a> ก็จะทำให้ request อื่นๆ ช้าตามไปด้วย</li>
+<li>nginx ยังมีปัญหาว่าจะ <a href=https://blog.cloudflare.com/the-sad-state-of-linux-socket-balancing/>schedule งาน worker</a> แบบไม่เท่าเทียมกัน ทำให้ปัญหาข้างต้นมีผลกว่าเดิม</li>
+<li>ไม่มีการแชร์ connection pool ข้าม worker process -  ถ้า process ที่รับ request จะเป็นเครื่องเดียวกันแต่เป็นคนละ process ก็ต้องสร้าง connection ใหม่อยู่ดี</li>
+</ul>
+</li>
+<li>เพิ่มฟีเจอร์อื่นๆ ได้ยาก - ถึง nginx จะมีให้เขียนโมดูลเพิ่มเติมได้ แต่ถ้าไม่เข้ากับสิ่งที่ nginx ออกแบบไว้ก็อาจจะทำได้ยาก</li>
+<li>อีกสิ่งที่พูดถึงแต่ละไว้เป็นตัวเล็กๆ คือเดฟของ nginx ไม่ค่อยแอคทีฟในคอมมูนิตี้แต่ไปงุบงิบทำกันเอง</li>
+</ol>
+<h1 id=แนวทางการแกปญหาของ-cloudflare>แนวทางการแก้ปัญหาของ Cloudflare</h1>
+<p>Cloudflare อธิบายว่ามีสามทางเลือกเพื่อแก้ปัญหานี้</p>
+<ol>
+<li>ใช้งาน nginx ต่อไป - อาจจะต้อง fork project เพื่อปรับให้เข้ากับการใช้งานของ Cloudflare ซึ่งจากปัญหาข้างต้นคิดว่าเป็นงานใหญ่ถึงแม้ว่าบุคลากรจะมีความเชี่ยวชาญ แต่ก็ไม่ใช่เรื่องง่าย</li>
+<li>เปลี่ยนไปใช้พร็อกซีตัวอื่นอย่าง Envoy (<a href=https://dropbox.tech/infrastructure/how-we-migrated-dropbox-from-nginx-to-envoy>Dropbox เลือกแนวทางนี้</a>)- กังวลว่าพอใช้ๆ ไปก็จะเกิดปัญหาอื่นที่แก้ไม่ได้ง่ายๆ แบบเดียวกับ nginx อยู่</li>
+<li>ทำใหม่หมด - ข้อนี้เหนื่อยสุด เราอยู่อยู่แล้วว่า Cloudflare เลือกทางนี้</li>
+</ol>
+<p>ที่น่าสนใจคือก่อน Cloudflare จะตัดสินใจแบบนี้ก็ได้ประเมินทางเลือกทุกๆ ไตรมาสมาซักระยะแล้ว (ในบทความใช้ว่า for a few years) ซึ่งผลก็คือใช้ nginx ต่อจนสุดท้ายก็เห็นว่าลงทุนทำใหม่เลยคุ้มค่ากว่าก็ค่อยตัดสินใจเริ่มทำของตัวเอง</p>
+<h1 id=design-decision-ใน-pingora-project>Design Decision ใน Pingora project</h1>
+<p><figure><img src=new-connection-pool-cf.png alt="Connection pool ใน Pingora">
+</figure>
+Cloudflare เลือกใช้ Rust เพราะอยากได้ Performance แบบ C แต่มีความ memory-safe อยู่ อีกเหตุผลน่าจะเพราะว่ามีการใช้ Rust ในหลายๆ โปรดักส์อยู่แล้ว</p>
+<ul>
+<li>
+<p>เลือกจะอิมพลีเมนต์ไลบรารี HTTP ขึ้นมาใหม่เพื่อตอบสนองความใช้งานตัวเอง เพราะไลบรารีที่เป็น 3rd-party อาจจะเลือกทำตามมาตรฐานอย่างเคร่งครัดและปฏิเสธ request ที่ไม่ตรงตามมาตรฐาน แต่ลูกค้าของ Cloudflare นั้นอาจจะใช้ request ที่ไม่ตรงมาตรฐานที่ว่านั้นก็ได้ ทำให้อยู่ในสภาพที่ต้องเลือกระหว่าง “ความถูกต้องหรือความถูกใจ” ซึ่ง Cloudflare เลือกความถูกใจ</p>
+</li>
+<li>
+<p>ใช้ Multi-threading แทน Multi-processing เพื่อแชร์ข้อมูลกันระหว่าง worker โดยเฉพาะ connection pool และ อนุญาตให้มี work stealing เพื่อลดปัญหาที่งานกระจุกอยู่ที่ worker เดียวโดยที่ worker อื่นไม่มีงานทำ</p>
+</li>
+<li>
+<p>ทำเป็น extensible platform ที่ให้กลุ่มอื่นมาเพิ่มฟีเจอร์ได้ง่ายๆ</p>
+</li>
+</ul>
+<h1 id=ผลหลงจากเอา-pingora-มาใช>ผลหลังจากเอา Pingora มาใช้</h1>
+<ul>
+<li>
+<p>หลังจากใช้งานใน production มาระยะหนึ่ง Cloudflare ก็สรุปออกมาว่า Pingora นั้นเร็วกว่า nginx จริงๆ</p>
+</li>
+<li>
+<p>ที่เป็นแบบนี้ก็เพราะมีการแชร์ข้อมูลกันระหว่าง Worker มากขึ้น ทำให้จำนวน connection ที่สร้างต่อวินาทีนั้นเหลือแค่ 1/3 ของระบบเก่า
+อัตราส่วนของการใช้ connection ซ้ำในระบบของลูกค้ารายหนึ่งเพิ่มขึ้นจาก 87
+1% -> 99
+2% หรือถ้าคิดเป็นจำนวน connection ที่สร้างขึ้นใหม่ก็จะเหลือแค่ 1/160 ของของเดิม</p>
+</li>
+<li>
+<p>แล้วพอเป็นของตัวเอง จะทำอะไรก็ง่ายไม่ต้องเสียเวลาคุยกันข้ามองค์กร ทำให้เข็นฟีเจอร์ใหม่ๆ ออกมาได้ง่ายขึ้น</p>
+</li>
+<li>
+<p>ประหยัดขึ้น เพราะใช้ซีพียูน้อยลง 70% ใช้หน่วยความจำน้อยลง 67% เมื่อเทียบกับระบบเดิมและโหลดเท่าเดิม เหตุผลเพราะนอกจาก Rust ทำงานได้มีประสิทธิภาพกว่า Lua แล้วยังไม่ต้องไปใช้การทำงานที่ต้องข้ามไปข้ามมาระหว่าง C &lt;-> Lua แบบใน nginx และอีกเหตุผลคือ พอมีการใช้ซ้ำ connection มากๆ ก็ประหยัดเวลาการทำ TLS handshaking ที่เปลืองเวลาซีพียู</p>
+</li>
+<li>
+<p>สิ่งที่เป็น by product คือปลอดภัยขึ้นเพราะส่วนใหญ่ถ้ามีปัญหาก็มักจะไม่ได้เกิดจาก Pingora ทำให้ตรวจพอปัญหาในจุดอื่นๆ ที่ไม่รู้มาก่อนเพิ่มมากขึ้น</p>
+</li>
+</ul>
+<h1 id=สรป>สรุป</h1>
+<p>Cloudflare เปลี่ยนมาทำพร็อกซีของตัวเองเพราะการใช้งาน nginx ต่อไปเริ่มไม่คุ้มค่าแล้ว เหตุผลหลักๆ ก็มาจากสถาปัตยกรรมของ nginx ที่เริ่มตอบโจทย์การใช้งานของ Cloudflare ได้ไม่ดี มีการใช้ reuse connection น้อยเพราะแต่ละ process แชร์ connection pool ไม่ได้
+ซึ่งกว่า Cloudflare จะตัดสินใจทำของตัวเองก็ใช้เวลาพิจารณาอยู่หลายปีจนมั่นใจว่าทำแล้วคุ้มแน่ถึงจะเริ่มทำ</p>
+<p>แล้วพอทำของตัวเองก็ออกแบบให้เข้ากับการใช้งานของตัวเองเป็นหลัก เลือกทำไลบรารีของตัวเองที่รองรับ request ที่ไม่ได้มาตรฐาน
+ผลก็คือได้พร็อกซีตัวใหม่ที่ตอบโจทย์ตรงกับความต้องการทางธุรกิจของตัวเองมากขึ้น ประหยัดต้นทุนของระบบไปได้เยอะ (เปลี่ยนเป็นต้นทุนทรัพยากรมนุษย์แทน)</p>
+<hr>
+<p>สรุปจาก: <a href=https://blog.cloudflare.com/how-we-built-pingora-the-proxy-that-connects-cloudflare-to-the-internet/>https://blog.cloudflare.com/how-we-built-pingora-the-proxy-that-connects-cloudflare-to-the-internet/</a></p>
+<p>ปล 1. ยังไม่เปิดซอร์สและคิดว่าน่าจะไม่เปิดด้วย</p>
+<p>ปล 2. นั่งอ่านไปก็พบว่าคนเขียนบทความนี่แซะ nginx แทบทุกย่อหน้า</p>
+</div>
+</div>
+</article>
+</div>
+</section>
+</div>
+<div class=container>
+<hr>
+<footer>
+<section class=note>
+published under
+<a class="link link--text" href=https://creativecommons.org/licenses/by-sa/4.0/>CC BY-SA 4.0</a>. made with hugo.
+</section>
+<section class=webring>
+<a href=https://webring.wonderful.software#wiennat.com title=วงแหวนเว็บ>
+<img alt=วงแหวนเว็บ width=21 height=21 src=/images/webring.svg>
+</a>
+</section>
+</footer>
+</div>
+</body>
+</html>
