@@ -6,6 +6,7 @@
 <title>
 Pingora พร็อกซีตัวใหม่ของ Cloudflare ที่มาแทน nginx | wiennat
 </title>
+<link rel=canonical href=/posts/pingora/>
 <meta property="og:title" content="Pingora พร็อกซีตัวใหม่ของ Cloudflare ที่มาแทน nginx">
 <meta property="og:description" content="สรุปคร่าวๆ เกี่ยวการพัฒนา Pingora ของ Cloudflare">
 <meta property="og:type" content="article">
@@ -74,7 +75,7 @@ wiennat
 <ol>
 <li>ใช้งาน nginx ต่อไป - อาจจะต้อง fork project เพื่อปรับให้เข้ากับการใช้งานของ Cloudflare ซึ่งจากปัญหาข้างต้นคิดว่าเป็นงานใหญ่ถึงแม้ว่าบุคลากรจะมีความเชี่ยวชาญ แต่ก็ไม่ใช่เรื่องง่าย</li>
 <li>เปลี่ยนไปใช้พร็อกซีตัวอื่นอย่าง Envoy (<a href=https://dropbox.tech/infrastructure/how-we-migrated-dropbox-from-nginx-to-envoy>Dropbox เลือกแนวทางนี้</a>)- กังวลว่าพอใช้ๆ ไปก็จะเกิดปัญหาอื่นที่แก้ไม่ได้ง่ายๆ แบบเดียวกับ nginx อยู่</li>
-<li>ทำใหม่หมด - ข้อนี้เหนื่อยสุด เราอยู่อยู่แล้วว่า Cloudflare เลือกทางนี้</li>
+<li>ทำใหม่หมด - ข้อนี้เหนื่อยสุด เรารู้อยู่แล้วว่า Cloudflare เลือกทางนี้</li>
 </ol>
 <p>ที่น่าสนใจคือก่อน Cloudflare จะตัดสินใจแบบนี้ก็ได้ประเมินทางเลือกทุกๆ ไตรมาสมาซักระยะแล้ว (ในบทความใช้ว่า for a few years) ซึ่งผลก็คือใช้ nginx ต่อจนสุดท้ายก็เห็นว่าลงทุนทำใหม่เลยคุ้มค่ากว่าก็ค่อยตัดสินใจเริ่มทำของตัวเอง</p>
 <h1 id=design-decision-ใน-pingora-project>Design Decision ใน Pingora project</h1>
